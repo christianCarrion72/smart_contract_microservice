@@ -1,0 +1,11 @@
+node_modules
+.env
+.cache
+hardhat.config.js
+test
+scripts
+Dockerfile
+docker-compose.yml
+.git
+.gitignore
+README.md
