@@ -9,7 +9,7 @@ const abi = require("../artifacts/contracts/HistoriaClinica.sol/HistoriaClinica.
 const provider = new ethers.JsonRpcProvider(process.env.ALCHEMY_API_URL);
 const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 const contrato = new ethers.Contract(process.env.CONTRACT_ADDRESS, abi.abi, signer);
-
+const cors = require("cors");
 // Definir el esquema GraphQL
 const schema = buildSchema(`
   type Query {
@@ -42,6 +42,16 @@ const root = {
 
 // Crear servidor
 const app = express();
+
+// Configurar CORS - agregar antes de las rutas
+app.use(cors({
+  //origin: ["http://localhost:9000", "http://localhost:4200"], // Orígenes permitidos
+  origin: "*", // Permitir todos los orígenes (no recomendado para producción)
+  credentials: true,
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use("/graphql", graphqlHTTP({
   schema,
   rootValue: root,
